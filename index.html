@@ -42,25 +42,18 @@
   @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,40px) scale(1.08)}66%{transform:translate(-25px,20px) scale(.95)}}
 
   .wrap{max-width:1120px;margin:0 auto;padding:56px 24px 56px;position:relative;z-index:1}
-  /* ===== 品牌铭牌 ===== */
-  header{text-align:center;margin-bottom:46px}
-  .brand{position:relative;display:inline-block;margin-bottom:26px;animation:floaty 7.5s ease-in-out infinite;perspective:900px;isolation:isolate}
-  .brand-glow{position:absolute;inset:-26px;z-index:-1;border-radius:42px;
-    background:conic-gradient(from 0deg,#f5b942,#e23b3b,#4ea8ff,#7a5cff,#f5b942);
-    filter:blur(36px);opacity:.4;animation:spin 14s linear infinite}
-  .brand-plate{position:relative;padding:3px;border-radius:20px;
-    background:linear-gradient(120deg,#f5b942,#e23b3b 46%,#4ea8ff);
-    box-shadow:0 26px 70px -26px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08) inset;
+  /* ===== 品牌（透明 logo 悬浮） ===== */
+  header{text-align:center;margin-bottom:44px}
+  .brand{position:relative;display:inline-block;margin-bottom:18px;animation:floaty 7.5s ease-in-out infinite;isolation:isolate}
+  .brand-glow{position:absolute;inset:-12% -9%;z-index:-1;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(245,185,66,.22),rgba(78,168,255,.12) 55%,transparent 76%);
+    filter:blur(30px);animation:pulse 6s ease-in-out infinite}
+  .brand-img{display:block;width:min(470px,80vw);height:auto;user-select:none;-webkit-user-drag:none;
+    filter:drop-shadow(0 16px 30px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(120,170,255,.10));
     transition:transform .45s cubic-bezier(.2,.8,.2,1)}
-  .brand:hover .brand-plate{transform:scale(1.035) rotateX(3deg)}
-  .brand-inner{position:relative;border-radius:17px;overflow:hidden;background:#fbfcfe;padding:12px 18px}
-  .brand-inner img{display:block;width:min(440px,74vw);height:auto;user-select:none;-webkit-user-drag:none}
-  .brand-inner::after{content:"";position:absolute;top:-10%;left:-60%;width:38%;height:120%;
-    background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);
-    transform:skewX(-18deg);animation:sweep 5.5s ease-in-out infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .brand:hover .brand-img{transform:scale(1.03) translateY(-3px)}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-  @keyframes sweep{0%{left:-60%}55%,100%{left:130%}}
+  @keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
 
   h1{font-size:34px;font-weight:800;letter-spacing:2px;
      background:linear-gradient(100deg,var(--gold2),var(--gold) 28%,var(--blue) 60%,var(--gold2));
@@ -85,11 +78,19 @@
   .card:hover{border-color:rgba(245,185,66,.5);
     box-shadow:0 20px 55px -20px rgba(245,185,66,.42), 0 0 0 1px rgba(245,185,66,.16) inset}
   .card:hover::before{opacity:1}
-  .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,rgba(245,185,66,.18),rgba(78,168,255,.16));
-    border:1px solid var(--card-border);margin-bottom:16px;color:var(--gold2);transition:transform .35s}
-  .card:hover .icon{transform:scale(1.08) rotate(-4deg)}
-  .icon svg{width:24px;height:24px}
+
+  /* 图标底座 + 渐变线条图标 */
+  .icon{position:relative;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,rgba(245,185,66,.16),rgba(78,168,255,.12));
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 10px 22px -12px rgba(0,0,0,.6);
+    margin-bottom:16px;overflow:hidden;transition:transform .35s, box-shadow .35s}
+  .icon::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 80% at 30% 0%,rgba(255,255,255,.20),transparent 60%)}
+  .icon svg{width:26px;height:26px;position:relative;z-index:1}
+  .card:hover .icon{transform:scale(1.09) rotate(-5deg);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 16px 28px -10px rgba(245,185,66,.42)}
+
   .card h3{font-size:18.5px;font-weight:700;letter-spacing:.5px}
   .card p{color:var(--muted);font-size:13.5px;margin-top:7px;min-height:38px}
   .meta{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
@@ -114,7 +115,7 @@
   .cards .card:nth-child(7){animation-delay:.47s}
   .cards .card:nth-child(8){animation-delay:.54s}
 
-  @media (max-width:520px){h1{font-size:26px}.wrap{padding:42px 18px 44px}.brand-inner{padding:9px 12px}}
+  @media (max-width:520px){h1{font-size:26px}.wrap{padding:42px 18px 44px}}
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
     .card{opacity:1;translate:0 0}
@@ -123,6 +124,15 @@
 </style>
 </head>
 <body>
+  <!-- 图标渐变描边定义 -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="icoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd27a"/>
+      <stop offset="0.5" stop-color="#f5b942"/>
+      <stop offset="1" stop-color="#4ea8ff"/>
+    </linearGradient>
+  </defs></svg>
+
   <div class="bg"></div>
   <canvas id="fx"></canvas>
   <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
@@ -133,11 +143,7 @@
     <header>
       <div class="brand">
         <div class="brand-glow"></div>
-        <div class="brand-plate">
-          <div class="brand-inner">
-            <img src="./brand.png" alt="陕西交控 × 延长石油" />
-          </div>
-        </div>
+        <img class="brand-img" src="./brand.png" alt="陕西交控 × 延长石油" />
       </div>
       <h1>高速延长 · 综合管理平台</h1>
       <div class="sub">业务驾驶舱与系统 · 统一入口</div>
@@ -157,29 +163,29 @@
   const SITES = [
     { name:"综合看板主站", desc:"加油站综合业务总驾驶舱（多用户后端）", cat:"驾驶舱", catType:"dash",
       url:"https://sx-gas-station-dashboard.app.workbuddy.host",
-      icon:'<path d="M4 13h7V4H4v9Zm9 7h7V4h-7v16Zm9 0h7V9h-7v11ZM4 20h7v-4H4v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      icon:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>' },
     { name:"非油销售预测", desc:"非油销量预测与任务申报系统", cat:"驾驶舱", catType:"dash",
       url:"https://nonoil-forecast-42019.app.workbuddy.host",
-      icon:'<path d="M4 19V5m0 14h16M8 15l4-5 3 3 5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+      icon:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
     { name:"非油销售汇总驾驶舱", desc:"非油销售·毛利·全年预测图表视图", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/feiyou-cockpit-web/",
-      icon:'<path d="M12 3a9 9 0 1 0 9 9h-9V3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 3v9h9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      icon:'<path d="M21.2 15.9A10 10 0 1 1 8 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>' },
     { name:"进销存管理系统", desc:"进货·销售·库存·盘点一体化管理", cat:"业务系统", catType:"biz",
       url:"https://lvritiann.github.io/jinxiaocun-cockpit/",
-      icon:'<path d="M3 8 12 3l9 5v13H3V8Zm3 0v13m12-13v13M3 8h18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+      icon:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>' },
     { name:"油品损耗驾驶舱", desc:"油品损耗监控、分析与预警", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/troleum-loss-dashboard/",
-      icon:'<path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+      icon:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>' },
     { name:"供应商订货台账", desc:"非油订货·额度管控·到货入库", cat:"业务系统", catType:"biz",
       url:"https://lvritiann.github.io/dinghuo-taizhang/",
-      icon:'<path d="M3 7h11v10H3V7Zm11 3h4l3 3v4h-7V10ZM7 10h1m-1 3h1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }
+      icon:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 11h8"/><path d="M8 15h6"/>' }
   ];
 
   const arrow = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const wrap = document.getElementById('cards');
   wrap.innerHTML = SITES.map(s => `
     <a class="card" href="${s.url}" target="_blank" rel="noopener noreferrer">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none">${s.icon}</svg></div>
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#icoGrad)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg></div>
       <h3>${s.name}</h3>
       <p>${s.desc}</p>
       <div class="meta">
