@@ -48,12 +48,12 @@
   .brand-glow{position:absolute;inset:-12% -9%;z-index:-1;border-radius:50%;
     background:radial-gradient(closest-side,rgba(245,185,66,.22),rgba(78,168,255,.12) 55%,transparent 76%);
     filter:blur(30px);animation:pulse 6s ease-in-out infinite}
-  .brand-img{display:block;width:min(470px,80vw);height:auto;user-select:none;-webkit-user-drag:none;
-    filter:drop-shadow(0 16px 30px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(120,170,255,.10));
+  .brand-img{display:block;width:min(410px,76vw);height:auto;user-select:none;-webkit-user-drag:none;
+    filter:drop-shadow(0 0 1.2px rgba(0,0,0,.92)) drop-shadow(0 14px 26px rgba(0,0,0,.5)) drop-shadow(0 0 22px rgba(120,170,255,.10));
     transition:transform .45s cubic-bezier(.2,.8,.2,1)}
   .brand:hover .brand-img{transform:scale(1.03) translateY(-3px)}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-  @keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
+  @keyframes pulse{0%,100%{opacity:.42;transform:scale(1)}50%{opacity:.72;transform:scale(1.05)}}
 
   h1{font-size:34px;font-weight:800;letter-spacing:2px;
      background:linear-gradient(100deg,var(--gold2),var(--gold) 28%,var(--blue) 60%,var(--gold2));
@@ -143,7 +143,7 @@
     <header>
       <div class="brand">
         <div class="brand-glow"></div>
-        <img class="brand-img" src="./brand.png" alt="陕西交控 × 延长石油" />
+        <img class="brand-img" src="./brand2.png" alt="陕西交控 × 延长石油" />
       </div>
       <h1>高速延长 · 综合管理平台</h1>
       <div class="sub">业务驾驶舱与系统 · 统一入口</div>
