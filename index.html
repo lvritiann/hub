@@ -3,76 +3,92 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#060912" />
 <title>高速延长 · 综合管理平台</title>
 <meta name="description" content="高速延长公司非油业务驾驶舱与系统统一入口" />
 <style>
   :root{
-    --bg:#060912;
-    --bg2:#0a0f1f;
-    --text:#e8edf7;
-    --muted:#94a3c0;
-    --gold:#f5b942;
-    --gold2:#ffd27a;
-    --blue:#4ea8ff;
-    --card:rgba(255,255,255,.045);
-    --card-border:rgba(255,255,255,.09);
+    --bg:#060912; --bg2:#0a0f1f;
+    --text:#e8edf7; --muted:#94a3c0;
+    --gold:#f5b942; --gold2:#ffd27a; --blue:#4ea8ff; --red:#e23b3b;
+    --card:rgba(255,255,255,.045); --card-border:rgba(255,255,255,.09);
     --radius:18px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
     font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    overflow-x:hidden;
-    position:relative;
-    -webkit-font-smoothing:antialiased;
-    line-height:1.5;
+    background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
+    position:relative; -webkit-font-smoothing:antialiased; line-height:1.5;
   }
-  /* 背景：极光 + 网格 */
-  .bg{position:fixed;inset:0;z-index:-2;background:
-      radial-gradient(1200px 700px at 15% -10%, rgba(245,185,66,.14), transparent 60%),
-      radial-gradient(1000px 700px at 95% 10%, rgba(78,168,255,.14), transparent 55%),
+  /* ===== 背景层 ===== */
+  .bg{position:fixed;inset:0;z-index:-5;background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(245,185,66,.16), transparent 60%),
+      radial-gradient(1000px 700px at 95% 8%, rgba(78,168,255,.15), transparent 55%),
+      radial-gradient(900px 600px at 50% 110%, rgba(226,59,59,.10), transparent 60%),
       linear-gradient(180deg,var(--bg),var(--bg2));}
-  .blob{position:fixed;z-index:-2;border-radius:50%;filter:blur(70px);opacity:.5;animation:float 18s ease-in-out infinite}
+  #fx{position:fixed;inset:0;z-index:-4;pointer-events:none}
+  .blob{position:fixed;z-index:-3;border-radius:50%;filter:blur(72px);opacity:.5;animation:float 20s ease-in-out infinite}
   .blob.a{width:420px;height:420px;left:-80px;top:-60px;background:radial-gradient(circle,rgba(245,185,66,.5),transparent 70%)}
   .blob.b{width:480px;height:480px;right:-120px;top:40px;background:radial-gradient(circle,rgba(78,168,255,.45),transparent 70%);animation-delay:-6s}
-  .blob.c{width:360px;height:360px;left:40%;bottom:-140px;background:radial-gradient(circle,rgba(120,90,255,.32),transparent 70%);animation-delay:-11s}
-  .grid{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  .blob.c{width:360px;height:360px;left:40%;bottom:-140px;background:radial-gradient(circle,rgba(226,59,59,.30),transparent 70%);animation-delay:-11s}
+  .grid{position:fixed;inset:0;z-index:-2;pointer-events:none;
     background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
     background-size:46px 46px;
-    -webkit-mask-image:radial-gradient(circle at 50% 35%,#000 0%,transparent 78%);
-            mask-image:radial-gradient(circle at 50% 35%,#000 0%,transparent 78%);}
+    -webkit-mask-image:radial-gradient(circle at 50% 32%,#000 0%,transparent 78%);
+            mask-image:radial-gradient(circle at 50% 32%,#000 0%,transparent 78%);}
+  .spotlight{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(420px circle at var(--x,50%) var(--y,18%), rgba(245,185,66,.10), transparent 62%);}
   @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,40px) scale(1.08)}66%{transform:translate(-25px,20px) scale(.95)}}
 
-  .wrap{max-width:1120px;margin:0 auto;padding:64px 24px 56px}
-  /* 头部 */
-  header{text-align:center;margin-bottom:48px;animation:fadeUp .8s ease both}
-  .logo{width:64px;height:64px;margin:0 auto 18px;display:block;filter:drop-shadow(0 6px 18px rgba(245,185,66,.35))}
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 24px 56px;position:relative;z-index:1}
+  /* ===== 品牌铭牌 ===== */
+  header{text-align:center;margin-bottom:46px}
+  .brand{position:relative;display:inline-block;margin-bottom:26px;animation:floaty 7.5s ease-in-out infinite;perspective:900px;isolation:isolate}
+  .brand-glow{position:absolute;inset:-26px;z-index:-1;border-radius:42px;
+    background:conic-gradient(from 0deg,#f5b942,#e23b3b,#4ea8ff,#7a5cff,#f5b942);
+    filter:blur(36px);opacity:.4;animation:spin 14s linear infinite}
+  .brand-plate{position:relative;padding:3px;border-radius:20px;
+    background:linear-gradient(120deg,#f5b942,#e23b3b 46%,#4ea8ff);
+    box-shadow:0 26px 70px -26px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08) inset;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .brand:hover .brand-plate{transform:scale(1.035) rotateX(3deg)}
+  .brand-inner{position:relative;border-radius:17px;overflow:hidden;background:#fbfcfe;padding:12px 18px}
+  .brand-inner img{display:block;width:min(440px,74vw);height:auto;user-select:none;-webkit-user-drag:none}
+  .brand-inner::after{content:"";position:absolute;top:-10%;left:-60%;width:38%;height:120%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);
+    transform:skewX(-18deg);animation:sweep 5.5s ease-in-out infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes sweep{0%{left:-60%}55%,100%{left:130%}}
+
   h1{font-size:34px;font-weight:800;letter-spacing:2px;
-     background:linear-gradient(100deg,var(--gold2),var(--gold) 45%,var(--blue));
-     -webkit-background-clip:text;background-clip:text;color:transparent;}
+     background:linear-gradient(100deg,var(--gold2),var(--gold) 28%,var(--blue) 60%,var(--gold2));
+     background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+     animation:shifthue 9s linear infinite;filter:drop-shadow(0 4px 20px rgba(245,185,66,.18))}
+  @keyframes shifthue{to{background-position:220% 0}}
   .sub{color:var(--muted);margin-top:10px;font-size:15px;letter-spacing:.5px}
   .tag{display:inline-block;margin-top:16px;padding:6px 14px;border:1px solid var(--card-border);border-radius:999px;
        font-size:12.5px;color:var(--muted);background:rgba(255,255,255,.03);backdrop-filter:blur(6px)}
   .tag b{color:var(--gold2);font-weight:700}
 
-  /* 卡片网格 */
+  /* ===== 卡片 ===== */
   .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
   .card{position:relative;display:block;text-decoration:none;color:inherit;
     background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);
     padding:24px 22px;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;
-    animation:fadeUp .8s ease both;}
+    transform:perspective(760px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition:transform .22s ease, border-color .35s, box-shadow .35s;
+    opacity:0; translate:0 22px; animation:fadeIn .7s ease forwards; will-change:transform}
   .card::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;
-    background:linear-gradient(90deg,var(--gold),var(--blue));opacity:.0;transition:opacity .35s}
-  .card:hover{transform:translateY(-7px);border-color:rgba(245,185,66,.5);
-    box-shadow:0 18px 50px -18px rgba(245,185,66,.45),0 0 0 1px rgba(245,185,66,.18) inset}
+    background:linear-gradient(90deg,var(--gold),var(--red),var(--blue));opacity:0;transition:opacity .35s}
+  .card:hover{border-color:rgba(245,185,66,.5);
+    box-shadow:0 20px 55px -20px rgba(245,185,66,.42), 0 0 0 1px rgba(245,185,66,.16) inset}
   .card:hover::before{opacity:1}
   .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
     background:linear-gradient(135deg,rgba(245,185,66,.18),rgba(78,168,255,.16));
-    border:1px solid var(--card-border);margin-bottom:16px;color:var(--gold2)}
+    border:1px solid var(--card-border);margin-bottom:16px;color:var(--gold2);transition:transform .35s}
+  .card:hover .icon{transform:scale(1.08) rotate(-4deg)}
   .icon svg{width:24px;height:24px}
   .card h3{font-size:18.5px;font-weight:700;letter-spacing:.5px}
   .card p{color:var(--muted);font-size:13.5px;margin-top:7px;min-height:38px}
@@ -85,10 +101,10 @@
   .card:hover .enter{gap:10px}
   .enter svg{width:15px;height:15px}
 
-  footer{text-align:center;margin-top:54px;color:var(--muted);font-size:12.5px;letter-spacing:.5px;animation:fadeUp 1s ease both}
+  footer{text-align:center;margin-top:54px;color:var(--muted);font-size:12.5px;letter-spacing:.5px}
   footer .line{width:60px;height:1px;background:var(--card-border);margin:0 auto 16px}
 
-  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
   .cards .card:nth-child(1){animation-delay:.05s}
   .cards .card:nth-child(2){animation-delay:.12s}
   .cards .card:nth-child(3){animation-delay:.19s}
@@ -98,24 +114,31 @@
   .cards .card:nth-child(7){animation-delay:.47s}
   .cards .card:nth-child(8){animation-delay:.54s}
 
-  @media (max-width:520px){h1{font-size:26px}.wrap{padding:46px 18px 44px}}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important}.blob{animation:none}}
+  @media (max-width:520px){h1{font-size:26px}.wrap{padding:42px 18px 44px}.brand-inner{padding:9px 12px}}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .card{opacity:1;translate:0 0}
+    #fx{display:none}
+  }
 </style>
 </head>
 <body>
   <div class="bg"></div>
+  <canvas id="fx"></canvas>
   <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div>
   <div class="grid"></div>
+  <div class="spotlight" id="spot"></div>
 
   <div class="wrap">
     <header>
-      <svg class="logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#ffd27a"/><stop offset="1" stop-color="#f5b942"/></linearGradient></defs>
-        <path d="M32 4 56 17.5v29L32 60 8 46.5v-29L32 4Z" stroke="url(#lg)" stroke-width="2.4" stroke-linejoin="round"/>
-        <path d="M22 40V24l20 16V24" stroke="#4ea8ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="32" cy="32" r="3" fill="#ffd27a"/>
-      </svg>
+      <div class="brand">
+        <div class="brand-glow"></div>
+        <div class="brand-plate">
+          <div class="brand-inner">
+            <img src="./brand.png" alt="陕西交控 × 延长石油" />
+          </div>
+        </div>
+      </div>
       <h1>高速延长 · 综合管理平台</h1>
       <div class="sub">业务驾驶舱与系统 · 统一入口</div>
       <div class="tag">共 <b id="cnt">0</b> 个系统 · 一键直达</div>
@@ -130,50 +153,26 @@
   </div>
 
 <script>
-  // ===== 系统入口数据：新增/修改在这里改即可 =====
+  /* ===== 入口数据：新增/修改在这里改 ===== */
   const SITES = [
-    {
-      name:"综合看板主站",
-      desc:"加油站综合业务总驾驶舱（多用户后端）",
-      cat:"驾驶舱", catType:"dash",
+    { name:"综合看板主站", desc:"加油站综合业务总驾驶舱（多用户后端）", cat:"驾驶舱", catType:"dash",
       url:"https://sx-gas-station-dashboard.app.workbuddy.host",
-      icon:'<path d="M4 13h7V4H4v9Zm9 7h7V4h-7v16Zm9 0h7V9h-7v11ZM4 20h7v-4H4v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
-    },
-    {
-      name:"非油销售预测",
-      desc:"非油销量预测与任务申报系统",
-      cat:"驾驶舱", catType:"dash",
+      icon:'<path d="M4 13h7V4H4v9Zm9 7h7V4h-7v16Zm9 0h7V9h-7v11ZM4 20h7v-4H4v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+    { name:"非油销售预测", desc:"非油销量预测与任务申报系统", cat:"驾驶舱", catType:"dash",
       url:"https://nonoil-forecast-42019.app.workbuddy.host",
-      icon:'<path d="M4 19V5m0 14h16M8 15l4-5 3 3 5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    },
-    {
-      name:"非油销售汇总驾驶舱",
-      desc:"非油销售·毛利·全年预测图表视图",
-      cat:"驾驶舱", catType:"dash",
+      icon:'<path d="M4 19V5m0 14h16M8 15l4-5 3 3 5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+    { name:"非油销售汇总驾驶舱", desc:"非油销售·毛利·全年预测图表视图", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/feiyou-cockpit-web/",
-      icon:'<path d="M12 3a9 9 0 1 0 9 9h-9V3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 3v9h9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
-    },
-    {
-      name:"进销存管理系统",
-      desc:"进货·销售·库存·盘点一体化管理",
-      cat:"业务系统", catType:"biz",
+      icon:'<path d="M12 3a9 9 0 1 0 9 9h-9V3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 3v9h9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+    { name:"进销存管理系统", desc:"进货·销售·库存·盘点一体化管理", cat:"业务系统", catType:"biz",
       url:"https://lvritiann.github.io/jinxiaocun-cockpit/",
-      icon:'<path d="M3 8 12 3l9 5v13H3V8Zm3 0v13m12-13v13M3 8h18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
-    },
-    {
-      name:"油品损耗驾驶舱",
-      desc:"油品损耗监控、分析与预警",
-      cat:"驾驶舱", catType:"dash",
+      icon:'<path d="M3 8 12 3l9 5v13H3V8Zm3 0v13m12-13v13M3 8h18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' },
+    { name:"油品损耗驾驶舱", desc:"油品损耗监控、分析与预警", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/troleum-loss-dashboard/",
-      icon:'<path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
-    },
-    {
-      name:"供应商订货台账",
-      desc:"非油订货·额度管控·到货入库",
-      cat:"业务系统", catType:"biz",
+      icon:'<path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
+    { name:"供应商订货台账", desc:"非油订货·额度管控·到货入库", cat:"业务系统", catType:"biz",
       url:"https://lvritiann.github.io/dinghuo-taizhang/",
-      icon:'<path d="M3 7h11v10H3V7Zm11 3h4l3 3v4h-7V10ZM7 10h1m-1 3h1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    }
+      icon:'<path d="M3 7h11v10H3V7Zm11 3h4l3 3v4h-7V10ZM7 10h1m-1 3h1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' }
   ];
 
   const arrow = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -189,6 +188,76 @@
       </div>
     </a>`).join('');
   document.getElementById('cnt').textContent = SITES.length;
+
+  /* ===== 减少动效偏好 ===== */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== 鼠标聚光 + 粒子连线 ===== */
+  const spot = document.getElementById('spot');
+  const mouse = { x: innerWidth/2, y: 120 };
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    spot.style.setProperty('--x', e.clientX + 'px');
+    spot.style.setProperty('--y', e.clientY + 'px');
+  }, { passive:true });
+
+  const cv = document.getElementById('fx');
+  const ctx = cv.getContext('2d');
+  let W, H, ps = [];
+  const DPR = Math.min(2, window.devicePixelRatio || 1);
+  function resize(){
+    W = innerWidth; H = innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const n = Math.min(84, Math.floor(W*H/20000));
+    ps = [];
+    for (let i=0;i<n;i++) ps.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.32, vy:(Math.random()-.5)*.32, r:Math.random()*1.5+.5 });
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for (const p of ps){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x<0||p.x>W) p.vx*=-1;
+      if (p.y<0||p.y>H) p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832);
+      ctx.fillStyle = 'rgba(180,205,255,.55)'; ctx.fill();
+    }
+    for (let i=0;i<ps.length;i++){
+      const a = ps[i];
+      for (let j=i+1;j<ps.length;j++){
+        const b = ps[j], dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy);
+        if (d<128){
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle = 'rgba(120,170,255,'+(0.13*(1-d/128))+')'; ctx.lineWidth=1; ctx.stroke();
+        }
+      }
+      const dx=a.x-mouse.x, dy=a.y-mouse.y, dm=Math.hypot(dx,dy);
+      if (dm<170){
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(mouse.x,mouse.y);
+        ctx.strokeStyle = 'rgba(245,185,66,'+(0.20*(1-dm/170))+')'; ctx.lineWidth=1; ctx.stroke();
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  if (!reduce){ resize(); tick(); window.addEventListener('resize', resize); }
+
+  /* ===== 卡片 3D 跟随 ===== */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const rx = ((e.clientY - r.top)/r.height - .5) * -7;
+        const ry = ((e.clientX - r.left)/r.width - .5) * 7;
+        card.style.setProperty('--rx', rx.toFixed(2)+'deg');
+        card.style.setProperty('--ry', ry.toFixed(2)+'deg');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx','0deg');
+        card.style.setProperty('--ry','0deg');
+      });
+    });
+  }
 </script>
 </body>
 </html>
