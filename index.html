@@ -165,9 +165,13 @@
 <script>
   /* ===== 入口数据：新增/修改在这里改 ===== */
   const SITES = [
+    /* 2026-11-02 暂时屏蔽：陕西高速油站分布（sx-gas-station-dashboard.app.workbuddy.host）
+       原因：该站为多用户后端渲染，手机端不能自适应，版面错乱。
+       恢复方式：去掉下面三行的注释即可（入口数由 6 变 5 是有意为之）。
     { name:"陕西高速油站分布", desc:"加油站综合业务总驾驶舱（多用户后端）", cat:"驾驶舱", catType:"dash",
       url:"https://sx-gas-station-dashboard.app.workbuddy.host",
       icon:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>' },
+    */
     { name:"成品油销量驾驶舱", desc:"成品油销量·双口径·站点排行·会计月轨迹", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/youpin-sales-cockpit/",
       icon:'<rect x="3" y="12" width="4.6" height="9" rx="1.2"/><rect x="9.7" y="6" width="4.6" height="15" rx="1.2"/><rect x="16.4" y="9.5" width="4.6" height="11.5" rx="1.2"/>' },
