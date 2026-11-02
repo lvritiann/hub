@@ -131,30 +131,38 @@
     .card{opacity:1;translate:0 0}
     #fx{display:none}
   }
-  /* ===== 手机端快捷访问：只在「触屏 + 窄屏」出现，电脑端连盒子都不渲染（display:none） ===== */
-  .mob{display:none}
-  @media (pointer:coarse) and (max-width:900px){ .mob{display:block;margin-top:22px} }
-  .mob-t{font-size:12.5px;letter-spacing:1.2px;color:var(--muted);margin:0 2px 10px;
-    display:flex;align-items:center;gap:8px}
-  .mob-t::after{content:"";flex:1;height:1px;
-    background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
-  .mob-g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .mob-c{display:flex;align-items:center;gap:11px;padding:13px 14px;border-radius:14px;
-    background:var(--card);border:1px solid var(--card-border);text-decoration:none;
-    color:inherit;font:inherit;text-align:left;cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-    transition:border-color .18s,background .18s,transform .1s}
-  .mob-c:active{transform:scale(.975)}
-  .mob-c:hover{border-color:rgba(245,185,66,.42);background:rgba(255,255,255,.07)}
-  .mob-i{flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
-    background:rgba(245,185,66,.12);border:1px solid rgba(245,185,66,.28)}
-  .mob-i svg{width:20px;height:20px;fill:none;stroke:var(--gold);stroke-width:1.9;
+  /* ===== 「添加到桌面」主按钮 =====
+     只在「触屏 + 窄屏」出现；电脑端 display:none，连盒子都不占位。
+     这条媒体查询是「不影响网页版」的唯一闸门，禁止放宽。 */
+  .cta{display:none}
+  @media (pointer:coarse) and (max-width:900px){ .cta{display:block;margin:20px 0 4px} }
+  .cta[hidden]{display:none!important}
+  .cta-b{position:relative;display:flex;align-items:center;gap:13px;width:100%;
+    padding:14px 15px;border:0;border-radius:16px;cursor:pointer;text-align:left;font:inherit;
+    color:#20160a;overflow:hidden;-webkit-tap-highlight-color:transparent;
+    background:linear-gradient(135deg,#ffd88f,#f5b942 58%,#eaa62f);
+    box-shadow:0 12px 30px -14px rgba(245,185,66,.75), 0 0 0 1px rgba(255,255,255,.12) inset;
+    transition:transform .12s ease, box-shadow .2s}
+  .cta-b:active{transform:scale(.982);box-shadow:0 6px 18px -12px rgba(245,185,66,.8)}
+  /* 一道缓慢扫过的光：深色背景上"会动"的金色按钮，用户不用找就能看见 */
+  .cta-b::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+    transform:skewX(-18deg);animation:sheen 3.6s ease-in-out infinite}
+  @keyframes sheen{0%{left:-60%}55%{left:120%}100%{left:120%}}
+  .cta-i{flex:0 0 auto;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+    background:rgba(26,18,6,.12);border:1px solid rgba(26,18,6,.14)}
+  .cta-i svg{width:21px;height:21px;fill:none;stroke:#20160a;stroke-width:2;
     stroke-linecap:round;stroke-linejoin:round}
-  .mob-i.hm{background:rgba(78,168,255,.13);border-color:rgba(78,168,255,.34)}
-  .mob-i.hm svg{stroke:var(--blue)}
-  .mob-x{min-width:0}
-  .mob-x b{display:block;font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
-  .mob-x i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:2px}
+  .cta-x{min-width:0;flex:1}
+  .cta-x b{display:block;font-size:15.5px;font-weight:800;letter-spacing:.3px;line-height:1.25}
+  .cta-x i{display:block;font-style:normal;font-size:11.5px;font-weight:600;
+    color:rgba(32,22,10,.68);margin-top:3px;line-height:1.4}
+  .cta-a{flex:0 0 auto;opacity:.72}
+  .cta-a svg{width:18px;height:18px;fill:none;stroke:#20160a;stroke-width:2.2;
+    stroke-linecap:round;stroke-linejoin:round}
+  .cta-s{margin-top:9px;text-align:center;font-size:11.5px;color:var(--muted);line-height:1.6}
+  .cta-s a{color:var(--gold);text-decoration:none;font-weight:700;
+    border-bottom:1px solid rgba(245,185,66,.35);padding-bottom:1px}
 
   /* ===== 「添加到桌面」引导抽屉 ===== */
   .hms{position:fixed;inset:0;z-index:9000;display:flex;align-items:flex-end;justify-content:center}
@@ -184,7 +192,13 @@
     background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1206;
     font-size:15px;font-weight:800;cursor:pointer}
   .hms-btn:active{transform:scale(.985)}
+  .hms-copy{width:100%;margin-top:12px;height:44px;border-radius:13px;cursor:pointer;
+    background:rgba(78,168,255,.14);border:1px solid rgba(78,168,255,.36);
+    color:#bcd9ff;font-size:14px;font-weight:700}
+  .hms-copy:active{background:rgba(78,168,255,.24)}
+  .hms-n{font-size:11.5px;line-height:1.65;color:#7d8aa4;margin:12px 0 0}
   body.locked{overflow:hidden}
+  @media (prefers-reduced-motion:reduce){ .cta-b::after{display:none} }
 </style>
 </head>
 <body>
@@ -214,26 +228,25 @@
       <div class="tag">共 <b id="cnt">0</b> 个系统 · 一键直达</div>
     </header>
 
-      <main class="cards" id="cards"></main>
-
-      <section class="mob" id="mob">
-        <div class="mob-t">手机端快捷访问</div>
-        <div class="mob-g">
-          <a class="mob-c" href="app/">
-            <span class="mob-i"><svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/></svg></span>
-            <span class="mob-x"><b>安卓 App</b><i>下载安装包</i></span>
-          </a>
-          <button class="mob-c" id="hmBtn" type="button">
-            <span class="mob-i hm"><svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="5.6" y="2.6" width="10.8" height="18.8" rx="2.6"/>
-              <path d="M9.6 18.9h2.4"/>
-              <circle cx="18.3" cy="17.7" r="4.3"/>
-              <path d="M18.3 15.8v3.8M16.4 17.7h3.8"/></svg></span>
-            <span class="mob-x"><b>鸿蒙</b><i>添加到桌面</i></span>
-          </button>
-        </div>
+      <!-- 「添加到桌面」主按钮：仅手机端渲染，电脑端 display:none 且不占任何空间 -->
+      <section class="cta" id="cta" aria-label="添加到桌面">
+        <button class="cta-b" id="addBtn" type="button">
+          <span class="cta-i"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3.2" y="3.2" width="7" height="7" rx="2"/>
+            <rect x="13.8" y="3.2" width="7" height="7" rx="2"/>
+            <rect x="3.2" y="13.8" width="7" height="7" rx="2"/>
+            <path d="M17.3 13.4v7.2M13.7 17h7.2"/></svg></span>
+          <span class="cta-x">
+            <b id="ctaT">添加到桌面</b>
+            <i id="ctaS">一键放到手机桌面，下次点图标直达</i>
+          </span>
+          <span class="cta-a"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+        <div class="cta-s">也可 <a href="app/">下载安卓安装包 v1.2</a>（Android 5.0 及以上）</div>
       </section>
+
+      <main class="cards" id="cards"></main>
 
       <footer>
       <div class="line"></div>
@@ -353,7 +366,7 @@
     });
   }
 </script>
-  <!-- 添加到桌面 · 引导抽屉（默认隐藏，点「鸿蒙」展开） -->
+  <!-- 添加到桌面 · 引导抽屉（默认隐藏，点主按钮展开） -->
   <div class="hms" id="hms" hidden>
     <div class="hms-bg" data-hms-close></div>
     <div class="hms-p" role="dialog" aria-modal="true" aria-labelledby="hmsT">
@@ -364,29 +377,45 @@
       <p class="hms-s" id="hmsS"></p>
       <ol class="hms-o" id="hmsO"></ol>
       <button class="hms-btn" type="button" id="hmsGo" hidden>立即添加</button>
+      <button class="hms-copy" type="button" id="hmsCopy" hidden>复制网址，去浏览器打开</button>
+      <p class="hms-n" id="hmsN"></p>
     </div>
   </div>
 
   <script>
-  /* ===== 「添加到桌面」引导：按设备给出不同步骤 =====
-     说明：网页无法直接调用系统的「添加到桌面」，各浏览器入口位置也不同，
-     所以这里做的是「识别设备 + 给准确步骤」，能原生安装的（Chrome 系）才直接调起。
-     权限：无需任何系统权限；前提是 HTTPS（GitHub Pages 已满足）。 */
+  /* ===== 「添加到桌面」引导 =====
+     网页没有权限直接把图标写进系统桌面，能做的只有两件事：
+       ① 浏览器支持 PWA 安装（Chromium 系）→ 直接调起原生安装框，一键完成；
+       ② 不支持 → 识别「具体是哪一个浏览器」，给出它菜单里那一项的确切名字。
+     权限：不需要任何系统权限，也不需要额外配置；前提只有 HTTPS（Pages 已满足）。 */
   (function () {
     var ua = navigator.userAgent || '';
     var isWX      = /MicroMessenger/i.test(ua);
+    var isQQ      = /QQ\//i.test(ua) && !isWX;
     var isHarmony = /HarmonyOS|OpenHarmony|ArkWeb/i.test(ua);
     var isAndroid = /Android/i.test(ua);
     var isNEXT    = isHarmony && !isAndroid;   // 纯血鸿蒙：UA 里有 HarmonyOS 但没有 Android
     var isIOS     = /iPad|iPhone|iPod/i.test(ua) && !window.MSStream;
 
-    var btn  = document.getElementById('hmBtn');
+    var btn  = document.getElementById('addBtn');
+    var cta  = document.getElementById('cta');
+    var btEl = document.getElementById('ctaT');
+    var bsEl = document.getElementById('ctaS');
     var box  = document.getElementById('hms');
     var tEl  = document.getElementById('hmsT');
     var sEl  = document.getElementById('hmsS');
     var oEl  = document.getElementById('hmsO');
     var goEl = document.getElementById('hmsGo');
+    var cpEl = document.getElementById('hmsCopy');
+    var nEl  = document.getElementById('hmsN');
     if (!btn || !box) return;
+
+    /* 已经是从桌面图标进来的（独立窗口）→ 这个按钮没有意义，直接藏掉 */
+    try {
+      if (window.matchMedia('(display-mode: standalone)').matches ||
+          window.matchMedia('(display-mode: fullscreen)').matches ||
+          navigator.standalone === true) { if (cta) cta.hidden = true; }
+    } catch (e) { /* 老浏览器不支持 matchMedia，按未安装处理 */ }
 
     var deferred = null;
     window.addEventListener('beforeinstallprompt', function (e) {
@@ -394,42 +423,80 @@
       deferred = e;
     });
 
+    /* 浏览器识别：menu = 菜单按钮长什么样，add = 菜单里那一项叫什么 */
+    function pick() {
+      if (isWX) return { k: 'wx', menu: '右上角「···」', add: '在浏览器打开', name: '微信' };
+      if (isQQ) return { k: 'qq', menu: '右上角「···」', add: '在浏览器打开', name: 'QQ' };
+      if (isIOS) return { k: 'ios', menu: '底部「分享」', add: '添加到主屏幕', name: 'Safari' };
+      if (/HuaweiBrowser/i.test(ua)) return { k: 'hw', menu: '底部「三」或右上角「···」', add: '添加到桌面', name: '华为浏览器' };
+      if (/EdgA|EdgiOS|Edg\//i.test(ua)) return { k: 'edge', menu: '底部「···」', add: '添加到手机', name: 'Edge' };
+      if (/SamsungBrowser/i.test(ua)) return { k: 'ss', menu: '底部「≡」', add: '添加页面到 → 主屏幕', name: '三星浏览器' };
+      if (/MiuiBrowser|XiaoMi|MiBro/i.test(ua)) return { k: 'mi', menu: '底部「≡」', add: '添加到桌面', name: '小米浏览器' };
+      if (/VivoBrowser|HeyTapBrowser|OppoBrowser/i.test(ua)) return { k: 'ov', menu: '底部「≡」', add: '添加到桌面', name: 'OPPO/vivo 浏览器' };
+      if (/UCBrowser|MQQBrowser|QQBrowser|Quark/i.test(ua)) return { k: 'uc', menu: '底部「≡」', add: '添加到桌面', name: 'UC/QQ 浏览器' };
+      if (/Firefox|FxiOS/i.test(ua)) return { k: 'ff', menu: '右上角「⋮」', add: '添加到主屏幕', name: 'Firefox' };
+      if (/CriOS|Chrome/i.test(ua)) return { k: 'cr', menu: '右上角「⋮」', add: '添加到主屏幕 / 安装应用', name: 'Chrome' };
+      return { k: 'ot', menu: '浏览器菜单', add: '添加到桌面', name: '当前浏览器' };
+    }
+    var b = pick();
+
+    /* 主按钮文案随平台微调，iOS 说「主屏幕」才是系统原话 */
+    if (btEl && isIOS) btEl.textContent = '添加到主屏幕';
+    if (bsEl) {
+      if (isNEXT) bsEl.textContent = '纯血鸿蒙免安装，放到桌面当 App 用';
+      else if (isIOS) bsEl.textContent = '从 Safari 分享菜单一步放到主屏幕';
+      else if (isWX) bsEl.textContent = '需先转到浏览器，按提示两步完成';
+    }
+
     function scenario() {
-      if (isWX) return {
+      /* 微信 / QQ 内置浏览器：不给添加，先教换浏览器，并给一键复制网址 */
+      if (isWX || isQQ) return {
         t: '请先在浏览器中打开',
-        s: '微信内置浏览器不允许「添加到桌面」。请按下面三步换成系统浏览器再操作：',
-        o: ['点右上角「···」', '选「在浏览器打开」', '在浏览器里再点一次「鸿蒙 · 添加到桌面」']
+        s: b.name + ' 内置浏览器不允许把网页放到桌面。换到系统浏览器只需两步：',
+        o: ['点' + b.menu + '，选「' + b.add + '」',
+            '在系统浏览器里打开本页，再点一次顶部的「添加到桌面」'],
+        copy: true,
+        n: '也可以点下面的按钮复制网址，粘贴到 Chrome、Edge 或手机自带浏览器里打开。'
       };
+      /* iOS 只有 Safari 能添加 */
+      if (isIOS) return {
+        t: '添加到主屏幕',
+        s: 'iPhone / iPad 只能用 Safari 添加。请确认当前是 Safari（不是微信、不是 Chrome）：',
+        o: ['点屏幕最下方的「分享」按钮（方框带向上箭头）',
+            '在弹出菜单里往下找，选「添加到主屏幕」',
+            '右上角点「添加」，桌面就会出现图标'],
+        n: '如果没看到「添加到主屏幕」，把菜单滑到底 →「编辑操作」→ 把它加回来。'
+      };
+
+      var base = [
+        '点' + b.menu + '，打开浏览器菜单',
+        '选「' + b.add + '」' + (isNEXT ? '（部分版本叫「添加到主屏幕」）' : ''),
+        '桌面出现图标，点开即全屏进入平台'
+      ];
+
       if (isNEXT) return {
         t: '添加到桌面（纯血鸿蒙）',
-        s: '本机是 HarmonyOS NEXT，不能安装安卓安装包——这是系统限制，与安装包无关。用「添加到桌面」可获得几乎相同的体验：独立图标、全屏、无地址栏。',
-        o: ['点浏览器右上角或底部的「···」菜单',
-            '选「添加到桌面」（部分版本叫「添加到主屏幕」）',
-            '回到桌面点新图标，即可直接进入平台']
+        s: '本机是 HarmonyOS NEXT，装不了安卓安装包——这是系统限制，与安装包无关。用「添加到桌面」得到的效果几乎一样：独立图标、全屏、无地址栏。',
+        o: base,
+        n: '推荐系统自带浏览器或 Chrome；华为浏览器部分版本里这一项叫「添加到主屏幕」。'
       };
       if (isHarmony) return {
         t: '添加到桌面（鸿蒙）',
-        s: '本机是兼容安卓的鸿蒙，既可以下载 App，也可以用这个更轻更快的方式放到桌面：',
-        o: ['点浏览器右上角或底部的「···」菜单',
-            '选「添加到桌面」（部分版本叫「添加到主屏幕」）',
-            '回到桌面点新图标，即可直接进入平台']
+        s: '本机是可以装安卓应用的鸿蒙。两种方式都行——装 App 功能最全；添加到桌面更轻，网页更新后图标自动跟着更新：',
+        o: base,
+        n: '已识别浏览器：' + b.name
       };
       if (isAndroid) return {
         t: '添加到桌面',
-        s: '除了下载 App，也可以把平台直接放到桌面——免安装，且随网页自动更新：',
-        o: ['点浏览器右上角「⋮」菜单', '选「添加到主屏幕」',
-            '确认后桌面出现图标，点开即达']
-      };
-      if (isIOS) return {
-        t: '添加到主屏幕',
-        s: '请用 Safari 打开本页，按下面三步操作：',
-        o: ['点底部中间的「分享」按钮', '下滑选「添加到主屏幕」', '点右上角「添加」']
+        s: '不用下载安装包，直接把平台放到桌面，点开就是全屏，和 App 几乎一样：',
+        o: base,
+        n: '已识别浏览器：' + b.name + '。若菜单里找不到这一项，换 Chrome 或 Edge 再试。'
       };
       return {
         t: '添加到桌面',
-        s: '请用手机浏览器打开本页，再按下面的步骤把平台放到桌面：',
-        o: ['在手机浏览器中访问本页', '打开浏览器菜单，选「添加到桌面」',
-            '回到桌面点新图标，即可直接进入平台']
+        s: '请用手机浏览器打开本页，再按下面两步操作：',
+        o: base,
+        n: '已识别浏览器：' + b.name
       };
     }
 
@@ -438,7 +505,10 @@
       tEl.textContent = c.t;
       sEl.textContent = c.s;
       oEl.innerHTML = c.o.map(function (x) { return '<li>' + x + '</li>'; }).join('');
-      goEl.hidden = !deferred;
+      goEl.hidden = !deferred;          // 只有能原生一键安装时才露出这个按钮
+      cpEl.hidden = !c.copy;
+      nEl.textContent = c.n || '';
+      nEl.hidden = !c.n;
       box.hidden = false;
       document.body.classList.add('locked');
     }
@@ -458,6 +528,29 @@
       if (!deferred) return;
       deferred.prompt();
       deferred.userChoice.then(function () { deferred = null; goEl.hidden = true; close(); });
+    });
+
+    /* 微信里没有「复制网址」的话，用户经常卡在"怎么把链接弄到浏览器"这一步 */
+    function copyFallback(u) {
+      var ta = document.createElement('textarea');
+      ta.value = u;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, u.length);
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    cpEl.addEventListener('click', function () {
+      var url = location.origin + location.pathname;
+      var done = function () { cpEl.textContent = '已复制，去浏览器粘贴打开'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { copyFallback(url); done(); });
+      } else {
+        copyFallback(url);
+        done();
+      }
     });
   })();
   </script>
