@@ -6,6 +6,13 @@
 <meta name="theme-color" content="#060912" />
 <title>高速延长 · 综合管理平台</title>
 <meta name="description" content="高速延长公司非油业务驾驶舱与系统统一入口" />
+<!-- PWA：让鸿蒙 / 安卓浏览器可以「添加到桌面」，获得接近 App 的独立图标体验 -->
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="综合管理平台" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <style>
   :root{
     --bg:#060912; --bg2:#0a0f1f;
@@ -124,6 +131,60 @@
     .card{opacity:1;translate:0 0}
     #fx{display:none}
   }
+  /* ===== 手机端快捷访问：只在「触屏 + 窄屏」出现，电脑端连盒子都不渲染（display:none） ===== */
+  .mob{display:none}
+  @media (pointer:coarse) and (max-width:900px){ .mob{display:block;margin-top:22px} }
+  .mob-t{font-size:12.5px;letter-spacing:1.2px;color:var(--muted);margin:0 2px 10px;
+    display:flex;align-items:center;gap:8px}
+  .mob-t::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
+  .mob-g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mob-c{display:flex;align-items:center;gap:11px;padding:13px 14px;border-radius:14px;
+    background:var(--card);border:1px solid var(--card-border);text-decoration:none;
+    color:inherit;font:inherit;text-align:left;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:border-color .18s,background .18s,transform .1s}
+  .mob-c:active{transform:scale(.975)}
+  .mob-c:hover{border-color:rgba(245,185,66,.42);background:rgba(255,255,255,.07)}
+  .mob-i{flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    background:rgba(245,185,66,.12);border:1px solid rgba(245,185,66,.28)}
+  .mob-i svg{width:20px;height:20px;fill:none;stroke:var(--gold);stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round}
+  .mob-i.hm{background:rgba(78,168,255,.13);border-color:rgba(78,168,255,.34)}
+  .mob-i.hm svg{stroke:var(--blue)}
+  .mob-x{min-width:0}
+  .mob-x b{display:block;font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+  .mob-x i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:2px}
+
+  /* ===== 「添加到桌面」引导抽屉 ===== */
+  .hms{position:fixed;inset:0;z-index:9000;display:flex;align-items:flex-end;justify-content:center}
+  .hms[hidden]{display:none}
+  .hms-bg{position:absolute;inset:0;background:rgba(3,5,10,.64);
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  .hms-p{position:relative;width:100%;max-width:520px;background:#0d1320;
+    border:1px solid rgba(255,255,255,.1);border-radius:20px 20px 0 0;
+    padding:20px 20px calc(env(safe-area-inset-bottom,0px) + 22px);
+    box-shadow:0 -12px 40px rgba(0,0,0,.6);
+    animation:hmsUp .26s cubic-bezier(.22,1,.36,1)}
+  @keyframes hmsUp{from{transform:translateY(18px);opacity:.4}to{transform:none;opacity:1}}
+  .hms-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+  .hms-h b{font-size:16px;letter-spacing:.4px}
+  .hms-x{width:30px;height:30px;border:0;background:rgba(255,255,255,.07);border-radius:50%;
+    color:var(--muted);font-size:17px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .hms-x:active{background:rgba(255,255,255,.15)}
+  .hms-s{font-size:13px;line-height:1.72;color:var(--muted);margin:0 0 14px}
+  .hms-o{margin:0;padding:0;list-style:none;counter-reset:s}
+  .hms-o li{counter-increment:s;position:relative;padding-left:30px;font-size:13.5px;
+    line-height:1.65;color:#cbd6e8;margin-bottom:11px}
+  .hms-o li:last-child{margin-bottom:0}
+  .hms-o li::before{content:counter(s);position:absolute;left:0;top:1px;width:20px;height:20px;
+    border-radius:50%;background:rgba(245,185,66,.16);border:1px solid rgba(245,185,66,.4);
+    color:var(--gold);font-size:11.5px;font-weight:700;display:grid;place-items:center}
+  .hms-btn{width:100%;margin-top:16px;height:46px;border:0;border-radius:13px;
+    background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1206;
+    font-size:15px;font-weight:800;cursor:pointer}
+  .hms-btn:active{transform:scale(.985)}
+  body.locked{overflow:hidden}
 </style>
 </head>
 <body>
@@ -153,9 +214,28 @@
       <div class="tag">共 <b id="cnt">0</b> 个系统 · 一键直达</div>
     </header>
 
-    <main class="cards" id="cards"></main>
+      <main class="cards" id="cards"></main>
 
-    <footer>
+      <section class="mob" id="mob">
+        <div class="mob-t">手机端快捷访问</div>
+        <div class="mob-g">
+          <a class="mob-c" href="app/">
+            <span class="mob-i"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/></svg></span>
+            <span class="mob-x"><b>安卓 App</b><i>下载安装包</i></span>
+          </a>
+          <button class="mob-c" id="hmBtn" type="button">
+            <span class="mob-i hm"><svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5.6" y="2.6" width="10.8" height="18.8" rx="2.6"/>
+              <path d="M9.6 18.9h2.4"/>
+              <circle cx="18.3" cy="17.7" r="4.3"/>
+              <path d="M18.3 15.8v3.8M16.4 17.7h3.8"/></svg></span>
+            <span class="mob-x"><b>鸿蒙</b><i>添加到桌面</i></span>
+          </button>
+        </div>
+      </section>
+
+      <footer>
       <div class="line"></div>
       内部导航 · 仅限授权人员访问 · 高速延长非油业务
       <div class="credit">Design by 刘龙伟 · Email: <a href="mailto:liulongwei@126.com">liulongwei@126.com</a></div>
@@ -273,5 +353,113 @@
     });
   }
 </script>
+  <!-- 添加到桌面 · 引导抽屉（默认隐藏，点「鸿蒙」展开） -->
+  <div class="hms" id="hms" hidden>
+    <div class="hms-bg" data-hms-close></div>
+    <div class="hms-p" role="dialog" aria-modal="true" aria-labelledby="hmsT">
+      <div class="hms-h">
+        <b id="hmsT">添加到桌面</b>
+        <button class="hms-x" type="button" data-hms-close aria-label="关闭">×</button>
+      </div>
+      <p class="hms-s" id="hmsS"></p>
+      <ol class="hms-o" id="hmsO"></ol>
+      <button class="hms-btn" type="button" id="hmsGo" hidden>立即添加</button>
+    </div>
+  </div>
+
+  <script>
+  /* ===== 「添加到桌面」引导：按设备给出不同步骤 =====
+     说明：网页无法直接调用系统的「添加到桌面」，各浏览器入口位置也不同，
+     所以这里做的是「识别设备 + 给准确步骤」，能原生安装的（Chrome 系）才直接调起。
+     权限：无需任何系统权限；前提是 HTTPS（GitHub Pages 已满足）。 */
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isWX      = /MicroMessenger/i.test(ua);
+    var isHarmony = /HarmonyOS|OpenHarmony|ArkWeb/i.test(ua);
+    var isAndroid = /Android/i.test(ua);
+    var isNEXT    = isHarmony && !isAndroid;   // 纯血鸿蒙：UA 里有 HarmonyOS 但没有 Android
+    var isIOS     = /iPad|iPhone|iPod/i.test(ua) && !window.MSStream;
+
+    var btn  = document.getElementById('hmBtn');
+    var box  = document.getElementById('hms');
+    var tEl  = document.getElementById('hmsT');
+    var sEl  = document.getElementById('hmsS');
+    var oEl  = document.getElementById('hmsO');
+    var goEl = document.getElementById('hmsGo');
+    if (!btn || !box) return;
+
+    var deferred = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferred = e;
+    });
+
+    function scenario() {
+      if (isWX) return {
+        t: '请先在浏览器中打开',
+        s: '微信内置浏览器不允许「添加到桌面」。请按下面三步换成系统浏览器再操作：',
+        o: ['点右上角「···」', '选「在浏览器打开」', '在浏览器里再点一次「鸿蒙 · 添加到桌面」']
+      };
+      if (isNEXT) return {
+        t: '添加到桌面（纯血鸿蒙）',
+        s: '本机是 HarmonyOS NEXT，不能安装安卓安装包——这是系统限制，与安装包无关。用「添加到桌面」可获得几乎相同的体验：独立图标、全屏、无地址栏。',
+        o: ['点浏览器右上角或底部的「···」菜单',
+            '选「添加到桌面」（部分版本叫「添加到主屏幕」）',
+            '回到桌面点新图标，即可直接进入平台']
+      };
+      if (isHarmony) return {
+        t: '添加到桌面（鸿蒙）',
+        s: '本机是兼容安卓的鸿蒙，既可以下载 App，也可以用这个更轻更快的方式放到桌面：',
+        o: ['点浏览器右上角或底部的「···」菜单',
+            '选「添加到桌面」（部分版本叫「添加到主屏幕」）',
+            '回到桌面点新图标，即可直接进入平台']
+      };
+      if (isAndroid) return {
+        t: '添加到桌面',
+        s: '除了下载 App，也可以把平台直接放到桌面——免安装，且随网页自动更新：',
+        o: ['点浏览器右上角「⋮」菜单', '选「添加到主屏幕」',
+            '确认后桌面出现图标，点开即达']
+      };
+      if (isIOS) return {
+        t: '添加到主屏幕',
+        s: '请用 Safari 打开本页，按下面三步操作：',
+        o: ['点底部中间的「分享」按钮', '下滑选「添加到主屏幕」', '点右上角「添加」']
+      };
+      return {
+        t: '添加到桌面',
+        s: '请用手机浏览器打开本页，再按下面的步骤把平台放到桌面：',
+        o: ['在手机浏览器中访问本页', '打开浏览器菜单，选「添加到桌面」',
+            '回到桌面点新图标，即可直接进入平台']
+      };
+    }
+
+    function open() {
+      var c = scenario();
+      tEl.textContent = c.t;
+      sEl.textContent = c.s;
+      oEl.innerHTML = c.o.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+      goEl.hidden = !deferred;
+      box.hidden = false;
+      document.body.classList.add('locked');
+    }
+    function close() {
+      box.hidden = true;
+      document.body.classList.remove('locked');
+    }
+
+    btn.addEventListener('click', open);
+    box.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-hms-close')) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !box.hidden) close();
+    });
+    goEl.addEventListener('click', function () {
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function () { deferred = null; goEl.hidden = true; close(); });
+    });
+  })();
+  </script>
 </body>
 </html>
