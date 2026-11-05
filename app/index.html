@@ -79,6 +79,63 @@
   .badge-hms{display:none;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:6px;
     background:rgba(78,168,255,.22);color:var(--blue2);margin-left:2px}
   body.hms .badge-hms{display:inline}
+
+  /* ============================================================
+     电脑端宽屏布局 —— 仅 @media (min-width:901px) 生效。
+     手机 / 平板竖屏（宽度 ≤900px）完全不进这段，渲染结果与改造前逐像素一致。
+     改造原因：本页原来只有 .wrap{max-width:560px} 且全文件零媒体查询，
+     在 1440px 电脑屏上被压成一条 560px 窄带，看着就像「把手机页面放到了电脑上」。
+     ============================================================ */
+  @media (min-width:901px){
+    body{
+      /* 电脑端不需要安全区内边距，改成常规桌面留白 */
+      padding:46px 32px 60px;
+      font-size:16.5px;
+    }
+    .wrap{
+      max-width:1080px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      column-gap:22px;
+      align-items:start;
+    }
+    /* 页头、品牌、页脚横跨两列 */
+    .top,.brand,footer{grid-column:1 / -1}
+    .top{margin-bottom:10px}
+    .top a{height:36px;font-size:13.5px;padding:0 16px 0 12px}
+    .brand{margin:0 0 30px}
+    .brand img{width:300px;margin-bottom:18px}
+    .brand h1{font-size:32px;letter-spacing:1.2px}
+    .brand p{font-size:15px;margin-top:10px}
+
+    /* 下载卡：横跨全宽，两个按钮并排，版本信息单独占一行 */
+    .card-dl{
+      grid-column:1 / -1;
+      flex-direction:row !important;
+      flex-wrap:wrap;
+      gap:0 14px;
+      padding:22px 24px;
+    }
+    .card-dl .dl{flex:1 1 240px;height:58px;font-size:17px}
+    .card-dl .dl + .dl{margin-top:0}
+    .card-dl .meta{flex:1 0 100%;justify-content:flex-start;margin-top:16px;padding-left:2px}
+
+    /* 正文两栏：左「安装三步」，右「会看到什么」 */
+    .card-steps{grid-column:1;padding:22px 24px}
+    .card-see{grid-column:2;padding:22px 24px}
+    /* 注意事项横跨全宽收尾 */
+    .card-warn{grid-column:1 / -1;padding:22px 24px}
+
+    h2{font-size:15.5px}
+    ol li{font-size:15px;margin-bottom:12px}
+    .tip{font-size:13.5px;line-height:1.8}
+    .row{font-size:14px;margin-bottom:11px}
+    footer{margin-top:30px}
+  }
+  /* 超宽屏再松一点，避免正文贴边 */
+  @media (min-width:1400px){
+    .wrap{max-width:1180px}
+  }
 </style>
 </head>
 <body>
@@ -97,7 +154,7 @@
     <p>安卓 / 鸿蒙 双版本 · 点开即用，免复制网址</p>
   </div>
 
-  <div class="card" style="display:flex;flex-direction:column">
+  <div class="card card-dl" style="display:flex;flex-direction:column">
     <a class="dl" href="gaosu-platform-v1.2.apk" download>
       <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/>
         <path d="M4 20h16"/></svg>
@@ -114,7 +171,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card card-steps">
     <h2>安卓手机 · 安装三步</h2>
     <ol>
       <li>点上面 <b>金色按钮</b>，等浏览器下载完成。</li>
@@ -134,7 +191,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card card-see">
     <h2>会看到什么</h2>
     <div class="row"><svg class="dot" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg>
       <span>点图标直接进<b>导航站</b>，全屏显示，没有地址栏。</span></div>
@@ -146,7 +203,7 @@
       <span>遇到需要第三方 App 的链接（微信、WPS 文档等），会自动交给对应 App 打开。</span></div>
   </div>
 
-  <div class="card">
+  <div class="card card-warn">
     <h2>注意</h2>
     <div class="row warn"><svg class="dot" viewBox="0 0 24 24">
       <path d="M12 8v5"/><path d="M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
