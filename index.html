@@ -258,13 +258,14 @@
 <script>
   /* ===== 入口数据：新增/修改在这里改 ===== */
   const SITES = [
-    /* 2026-11-02 暂时屏蔽：陕西高速油站分布（sx-gas-station-dashboard.app.workbuddy.host）
-       原因：该站为多用户后端渲染，手机端不能自适应，版面错乱。
-       恢复方式：去掉下面三行的注释即可（入口数由 6 变 5 是有意为之）。
-    { name:"陕西高速油站分布", desc:"加油站综合业务总驾驶舱（多用户后端）", cat:"驾驶舱", catType:"dash",
+    /* 2026-11-05 恢复：陕西高速油站分布（= 陕西高速加油站运营全景看板）
+       该站为多用户后端 + 全屏地图布局，手机端不能自适应，版面会错乱。
+       处置：只给电脑端显示；手机端（触屏 + 窄屏闸门）不渲染此项，仍保持 5 个入口。
+       判定与 .cta 主按钮共用同一条闸门，保证「电脑端多一个、手机端一个都不多」。 */
+    { name:"陕西高速油站分布", desc:"服务区分布全景看板·加油站运营总览（电脑端专属）", cat:"驾驶舱", catType:"dash",
+      pcOnly:true,
       url:"https://sx-gas-station-dashboard.app.workbuddy.host",
       icon:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>' },
-    */
     { name:"成品油销量驾驶舱", desc:"成品油销量·双口径·站点排行·会计月轨迹", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/youpin-sales-cockpit/",
       icon:'<rect x="3" y="12" width="4.6" height="9" rx="1.2"/><rect x="9.7" y="6" width="4.6" height="15" rx="1.2"/><rect x="16.4" y="9.5" width="4.6" height="11.5" rx="1.2"/>' },
@@ -283,8 +284,13 @@
   ];
 
   const arrow = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  /* 手机端（触屏 + 窄屏）不渲染 pcOnly 入口 —— 与 .cta 主按钮共用同一条闸门，
+     保证电脑端有 6 个、手机端仍是 5 个，手机端布局与屏蔽前完全一致。 */
+  const IS_MOBILE = window.matchMedia('(pointer:coarse) and (max-width:900px)').matches;
+  const SHOWN = SITES.filter(s => !(s.pcOnly && IS_MOBILE));
+
   const wrap = document.getElementById('cards');
-  wrap.innerHTML = SITES.map(s => `
+  wrap.innerHTML = SHOWN.map(s => `
     <a class="card" href="${s.url}" target="_blank" rel="noopener noreferrer">
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#icoGrad)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg></div>
       <h3>${s.name}</h3>
@@ -294,7 +300,7 @@
         <span class="enter">进入系统 ${arrow}</span>
       </div>
     </a>`).join('');
-  document.getElementById('cnt').textContent = SITES.length;
+  document.getElementById('cnt').textContent = SHOWN.length;
 
   /* ===== 减少动效偏好 ===== */
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
