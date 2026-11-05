@@ -9,7 +9,7 @@
   :root{
     --bg:#060912; --bg2:#0a0f1f; --text:#e8edf7; --muted:#94a3c0;
     --gold:#f5b942; --gold2:#ffd27a; --line:rgba(255,255,255,.09);
-    --card:rgba(255,255,255,.045);
+    --card:rgba(255,255,255,.045); --blue:#4ea8ff; --blue2:#8ccbff;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;min-height:100%}
@@ -48,10 +48,18 @@
   .dl:active{transform:scale(.98)}
   .dl svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2.2;
     stroke-linecap:round;stroke-linejoin:round}
-  .meta{display:flex;gap:16px;justify-content:center;margin-top:12px;
+  .dl + .dl{margin-top:10px}
+  .dl-hms{
+    color:#04141f;
+    background:linear-gradient(135deg,var(--blue2),var(--blue));
+    box-shadow:0 8px 24px rgba(78,168,255,.26);
+  }
+  .meta{display:flex;gap:8px 16px;justify-content:center;margin-top:14px;
     color:var(--muted);font-size:12.5px;flex-wrap:wrap}
   .meta b{color:var(--gold2);font-weight:700}
+  .meta i{font-style:normal;color:var(--blue2);font-weight:700}
   h2{font-size:14.5px;margin:0 0 12px;letter-spacing:.4px;color:var(--gold2)}
+  h2.blue{color:var(--blue2)}
   ol{margin:0;padding-left:20px}
   ol li{margin-bottom:11px;font-size:14.5px;color:#cdd7ea}
   ol li:last-child{margin-bottom:0}
@@ -63,7 +71,14 @@
   .dot{flex:0 0 auto;width:15px;height:15px;margin-top:4px;fill:none;stroke:#5ed6a0;
     stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
   .warn .dot{stroke:#e0b45a}
-  footer{text-align:center;color:#5c6b88;font-size:12px;margin-top:26px}
+  .divider{height:1px;background:var(--line);margin:16px 0}
+  footer{text-align:center;color:#5c6b88;font-size:12px;margin-top:26px;line-height:1.9}
+  footer a{color:#7d8db0;text-decoration:none}
+  /* 检测到纯血鸿蒙时，把蓝色按钮提到前面 */
+  body.hms .dl-hms{order:-1}
+  .badge-hms{display:none;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:6px;
+    background:rgba(78,168,255,.22);color:var(--blue2);margin-left:2px}
+  body.hms .badge-hms{display:inline}
 </style>
 </head>
 <body>
@@ -79,29 +94,44 @@
   <div class="brand">
     <img src="../brand.png" alt="陕西交控 · 延长石油">
     <h1>综合管理平台</h1>
-    <p>安卓版 App · 点开即用，免复制网址</p>
+    <p>安卓 / 鸿蒙 双版本 · 点开即用，免复制网址</p>
   </div>
 
-  <div class="card">
+  <div class="card" style="display:flex;flex-direction:column">
     <a class="dl" href="gaosu-platform-v1.2.apk" download>
       <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/>
         <path d="M4 20h16"/></svg>
-      下载安装包
+      安卓手机 · 下载安装包
+    </a>
+    <a class="dl dl-hms" href="https://appgallery.huawei.com/link/invite-test-wap?taskId=438b92209caa491d6aff4540685b151c&amp;invitationCode=82UxPYtgl0m">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/>
+        <path d="M4 20h16"/></svg>
+      鸿蒙手机 · 去应用市场安装<span class="badge-hms">推荐</span>
     </a>
     <div class="meta">
-      <span>版本 <b>v1.2</b></span>
-      <span>大小 <b>246 KB</b></span>
-      <span>需 <b>Android 5.0+</b></span>
+      <span>安卓 <b>v1.2</b> · 246 KB</span>
+      <span>鸿蒙 <i>v1.0.0</i> · 内测</span>
     </div>
   </div>
 
   <div class="card">
-    <h2>安装三步</h2>
+    <h2>安卓手机 · 安装三步</h2>
     <ol>
-      <li>点上面 <b>下载安装包</b>，等浏览器下载完成。</li>
+      <li>点上面 <b>金色按钮</b>，等浏览器下载完成。</li>
       <li>打开下载的文件。若提示「禁止安装未知应用」，点 <b>设置</b> → 打开 <b>允许来自此来源的应用</b>，再返回点「安装」。</li>
       <li>安装完成后，桌面出现 <b>「综合管理平台」</b> 图标，以后点它就能直接进平台。</li>
     </ol>
+    <div class="divider"></div>
+    <h2 class="blue">鸿蒙手机 · 安装三步</h2>
+    <ol>
+      <li>点上面 <b>蓝色按钮</b>，会跳到华为应用市场的测试页面。</li>
+      <li>点 <b>「安装」</b>。若提示登录，用你的华为账号登录一下；若提示需要先加入测试，点「同意加入」即可。</li>
+      <li>安装完成后，桌面出现 <b>「综合管理平台」</b> 图标，以后点它就能直接进平台。</li>
+    </ol>
+    <p class="tip" style="margin-top:12px">
+      鸿蒙版目前是<b>内部测试版本</b>，必须通过上面这个链接安装，在应用市场里搜不到。
+      链接 30 天内有效，过期了找管理员要新的。
+    </p>
   </div>
 
   <div class="card">
@@ -120,13 +150,28 @@
     <h2>注意</h2>
     <div class="row warn"><svg class="dot" viewBox="0 0 24 24">
       <path d="M12 8v5"/><path d="M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
-      <span class="tip"><strong>鸿蒙 NEXT（纯血鸿蒙 5.0 及以上）装不了 APK</strong>，请改用手机浏览器打开平台后，选择「添加到桌面」，效果相近。</span></div>
+      <span class="tip"><strong>别装错版本。</strong>鸿蒙 NEXT（纯血鸿蒙 5.0 及以上）装不了安卓包，
+        请走蓝色按钮；不确定自己是什么手机，先用蓝色按钮试，装不上再回来点金色按钮。</span></div>
     <div class="row warn"><svg class="dot" viewBox="0 0 24 24">
       <path d="M12 8v5"/><path d="M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
-      <span class="tip">本安装包<b>只做一个入口</b>：打开平台网址。它不读取、不修改平台任何数据，也不影响电脑上网页版的任何显示与操作。</span></div>
+      <span class="tip">两个版本<b>只做一个入口</b>：打开平台网址。它们不读取、不修改平台任何数据，
+        也不影响电脑上网页版的任何显示与操作。</span></div>
+    <div class="row warn"><svg class="dot" viewBox="0 0 24 24">
+      <path d="M12 8v5"/><path d="M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
+      <span class="tip">鸿蒙版连不上应用市场时，可以先用手机浏览器打开平台，
+        选择「添加到桌面」，效果相近，同样能全屏使用。</span></div>
   </div>
 
-  <footer>综合管理平台 · 陕西高速延长</footer>
+  <footer>
+    综合管理平台 · 陕西高速延长<br>
+    <a href="../privacy/">隐私政策</a>
+  </footer>
 </div>
+<script>
+  // 纯血鸿蒙（HarmonyOS NEXT）的 WebView 标识为 ArkWeb，据此把蓝色按钮提到前面
+  try {
+    if (/ArkWeb/i.test(navigator.userAgent)) document.body.classList.add('hms');
+  } catch (e) {}
+</script>
 </body>
 </html>
