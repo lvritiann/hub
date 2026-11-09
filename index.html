@@ -135,7 +135,14 @@
      只在「触屏 + 窄屏」出现；电脑端 display:none，连盒子都不占位。
      这条媒体查询是「不影响网页版」的唯一闸门，禁止放宽。 */
   .cta{display:none}
-  @media (pointer:coarse) and (max-width:900px){ .cta{display:block;margin:20px 0 4px} }
+  @media (pointer:coarse) and (max-width:900px){
+    /* 2026-11-09：这块已从首屏移到 5 个系统卡片之后，不再抢占业务入口的位置。
+       上边距加大到 34px 与卡片列表拉开，并用一条两端渐隐的细线做分隔，
+       免得看着像从上面掉下来的一截。闸门本身未改动。 */
+    .cta{display:block;margin:34px 0 4px;position:relative}
+    .cta::before{content:"";position:absolute;top:-19px;left:3%;right:3%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
+  }
   .cta[hidden]{display:none!important}
   .cta-b{position:relative;display:flex;align-items:center;gap:13px;width:100%;
     padding:14px 15px;border:0;border-radius:16px;cursor:pointer;text-align:left;font:inherit;
@@ -228,7 +235,12 @@
       <div class="tag">共 <b id="cnt">0</b> 个系统 · 一键直达</div>
     </header>
 
-      <!-- 「添加到桌面」主按钮：仅手机端渲染，电脑端 display:none 且不占任何空间 -->
+      <main class="cards" id="cards"></main>
+
+      <!-- 「添加到桌面」主按钮：仅手机端渲染，电脑端 display:none 且不占任何空间。
+           2026-11-09 从首屏移到 5 个系统卡片之后 —— 原来这块占满首屏，
+           把业务入口全挤到折叠线以下；站长进来是进系统，不是来装 App 的。
+           位置变了，但是同一个 #cta / #addBtn，JS 逻辑一行没动。 -->
       <section class="cta" id="cta" aria-label="添加到桌面">
         <button class="cta-b" id="addBtn" type="button">
           <span class="cta-i"><svg viewBox="0 0 24 24" aria-hidden="true">
@@ -245,8 +257,6 @@
         </button>
         <div class="cta-s">也可 <a href="app/">下载安卓安装包 v1.2</a>（Android 5.0 及以上）</div>
       </section>
-
-      <main class="cards" id="cards"></main>
 
       <footer>
       <div class="line"></div>
