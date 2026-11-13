@@ -120,8 +120,9 @@
   @media (min-width:1240px){
     .wrap{max-width:1300px}
     .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
-    /* 卡片变窄后描述更容易占两行，统一预留两行高度，保证 8 张卡等高、卡片底边齐平 */
-    .card p{min-height:44px}
+    /* 4 列下描述基本都是一行，留两行高度会显空；改成一行高度，
+       万一某条描述偏长，grid 的 stretch 会自动把同排卡片拉齐，不会参差 */
+    .card p{min-height:24px}
     .card{padding:22px 20px}
     .card h3{font-size:17.5px}
   }
@@ -289,7 +290,7 @@
        该站为多用户后端 + 全屏地图布局，手机端不能自适应，版面会错乱。
        处置：只给电脑端显示；手机端（触屏 + 窄屏闸门）不渲染此项，仍保持 5 个入口。
        判定与 .cta 主按钮共用同一条闸门，保证「电脑端多一个、手机端一个都不多」。 */
-    { name:"陕西高速油站分布", desc:"服务区分布全景看板·加油站运营总览（电脑端专属）", cat:"驾驶舱", catType:"dash",
+    { name:"陕西高速油站分布", desc:"服务区分布全景·油站运营总览", cat:"驾驶舱", catType:"dash",
       pcOnly:true,
       url:"https://sx-gas-station-dashboard.app.workbuddy.host",
       icon:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>' },
