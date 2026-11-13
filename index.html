@@ -109,6 +109,23 @@
   .card:hover .enter{gap:10px}
   .enter svg{width:15px;height:15px}
 
+  /* ==========================================================================
+     电脑大屏：8 个卡片排成 4 列 × 2 行，正好填满，消除「3+3+2」末行留空。
+     为什么必须同时放宽 .wrap：原来 max-width 1120px，内容区只有 1072px，
+     硬排 4 列每列仅 253px，12 字的「油站考核体系与在线工作台」会折行。
+     放宽到 1300px 后每列约 283px，标题可保持单行。
+     ≥1240px 才生效：再窄的窗口 4 列会挤成两行标题，退回原来的 auto-fill（3 列）。
+     手机端与平板竖屏完全不受影响（它们在 auto-fill 下本来就只有 1 列）。
+     ========================================================================== */
+  @media (min-width:1240px){
+    .wrap{max-width:1300px}
+    .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+    /* 卡片变窄后描述更容易占两行，统一预留两行高度，保证 8 张卡等高、卡片底边齐平 */
+    .card p{min-height:44px}
+    .card{padding:22px 20px}
+    .card h3{font-size:17.5px}
+  }
+
   footer{text-align:center;margin-top:54px;color:var(--muted);font-size:12.5px;letter-spacing:.5px}
   footer .line{width:60px;height:1px;background:var(--card-border);margin:0 auto 16px}
   .credit{margin-top:9px;font-size:11.5px;color:rgba(148,163,192,.68);letter-spacing:.3px}
@@ -288,13 +305,6 @@
     { name:"油站考核体系与在线工作台", desc:"目标责任考核·实时人效·在线评分", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/kaohe-workbench/",
       icon:'<circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1"/>' },
-    /* 2026-11-13 新增：非油本地结构化驾驶舱。
-       服务跑在局域网 192.168.100.32:8848，出了公司网络就打不开，
-       所以标 pcOnly —— 手机端不渲染，免得站长在外面点开一片空白。 */
-    { name:"非油本地结构化驾驶舱", desc:"同比环比·品类结构·节日对比（仅局域网）", cat:"驾驶舱", catType:"dash",
-      pcOnly:true,
-      url:"http://192.168.100.32:8848/#/cat",
-      icon:'<path d="M3 5h18l-7 8v6l-4 2v-8z"/>' },
     { name:"油品管理驾驶舱", desc:"油品损耗监控、分析与预警", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/troleum-loss-dashboard/",
       icon:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>' },
@@ -303,7 +313,16 @@
       icon:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>' },
     { name:"供应商订货系统", desc:"非油订货·额度管控·到货入库", cat:"业务系统", catType:"biz",
       url:"https://lvritiann.github.io/dinghuo-taizhang/",
-      icon:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 11h8"/><path d="M8 15h6"/>' }
+      icon:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 11h8"/><path d="M8 15h6"/>' },
+    /* 2026-11-13 移到最后一位（原在考核之后）。
+       服务跑在局域网 192.168.100.32:8848，出了公司网络就打不开，
+       所以标 pcOnly —— 手机端不渲染，免得站长在外面点开一片空白。
+       因为它是 pcOnly，挪到末尾**不影响手机端顺序**，手机端仍是：
+       成品油 → 非油综合 → 考核(第3) → 油品管理 → 进销存 → 订货。 */
+    { name:"非油本地结构化驾驶舱", desc:"同比环比·品类结构·节日对比（仅局域网）", cat:"驾驶舱", catType:"dash",
+      pcOnly:true,
+      url:"http://192.168.100.32:8848/#/cat",
+      icon:'<path d="M3 5h18l-7 8v6l-4 2v-8z"/>' }
   ];
 
   const arrow = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
