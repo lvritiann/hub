@@ -288,11 +288,14 @@
   const SITES = [
     /* 2026-11-05 恢复：陕西高速油站分布（= 陕西高速加油站运营全景看板）
        该站为多用户后端 + 全屏地图布局，手机端不能自适应，版面会错乱。
-       处置：只给电脑端显示；手机端（触屏 + 窄屏闸门）不渲染此项，仍保持 5 个入口。
-       判定与 .cta 主按钮共用同一条闸门，保证「电脑端多一个、手机端一个都不多」。 */
+       处置：只给电脑端显示；手机端（触屏 + 窄屏闸门）不渲染此项。
+       判定与 .cta 主按钮共用同一条闸门，保证「电脑端多一个、手机端一个都不多」。
+       2026-11-13：原裸地址已失效（返回 403，页面标题「链接不完整」），
+       改为带分享码的地址 ?sharecode=QCONVJ5NJV —— 实测 200，正常跳转到全景看板。
+       ★ 分享码若再次失效，症状就是这个 403「链接不完整」页，需重新取码。 */
     { name:"陕西高速油站分布", desc:"服务区分布全景·油站运营总览", cat:"驾驶舱", catType:"dash",
       pcOnly:true,
-      url:"https://sx-gas-station-dashboard.app.workbuddy.host",
+      url:"https://sx-gas-station-dashboard.app.workbuddy.host/?sharecode=QCONVJ5NJV",
       icon:'<rect x="3" y="3" width="7" height="9" rx="1.6"/><rect x="14" y="3" width="7" height="5" rx="1.6"/><rect x="14" y="12" width="7" height="9" rx="1.6"/><rect x="3" y="16" width="7" height="5" rx="1.6"/>' },
     { name:"成品油销量驾驶舱", desc:"成品油销量·双口径·站点排行·会计月轨迹", cat:"驾驶舱", catType:"dash",
       url:"https://lvritiann.github.io/youpin-sales-cockpit/",
